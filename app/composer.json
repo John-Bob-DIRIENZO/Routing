@@ -1,0 +1,20 @@
+{
+    "name": "jean-francois/app",
+    "description": "Un petit framework pour le fun",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "John-Bob-DIRIENZO",
+            "email": "jf.dirienzo@gmail.com"
+        }
+    ],
+    "require": {
+        "cocur/slugify": "^4.0",
+        "psr/container": "^2.0"
+    }
+}

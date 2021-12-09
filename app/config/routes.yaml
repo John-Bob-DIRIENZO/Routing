@@ -1,0 +1,25 @@
+homePage:
+    path: /
+    controller: PostController
+    action: index
+
+showOnePost:
+    path: /show
+    controller: PostController
+    action: show
+    params:
+        - id
+        - mainId
+# API
+upload-image:
+    path: /api/upload-image
+    controller: ApiController
+    action: uploadImage
+
+postList:
+    path: /api/posts
+    controller: ApiController
+    action: posts
+    params:
+        - id
+
