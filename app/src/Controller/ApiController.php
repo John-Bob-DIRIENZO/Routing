@@ -22,6 +22,5 @@ class ApiController extends BaseController
                 'liste des posts' => 'on en aura'
             ]);
         }
-
     }
 }

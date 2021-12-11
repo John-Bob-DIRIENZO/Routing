@@ -3,6 +3,7 @@
 namespace App\Core\BaseClasses;
 
 use App\Core\Utils\Hydrator;
+use App\Core\Utils\Regex;
 
 abstract class BaseEntity
 {
@@ -13,30 +14,24 @@ abstract class BaseEntity
         $this->hydrate($data);
     }
 
-    private function readDocBloc(string $docBlocComment)
+    public static function getSqlTypesFromDocBloc() : array
     {
-        preg_match('/@SQL={(.*)}/', $docBlocComment, $match);
-        return $match[1];
-    }
-
-    public function getSqlTypesFromDocBloc() : array
-    {
-        $reflection = new \ReflectionClass($this);
+        $reflection = new \ReflectionClass(static::class);
         foreach ($reflection->getProperties() as $reflectionProperty) {
             if ($reflectionProperty->getDocComment()) {
-                $sqlTypes[$reflectionProperty->getName()] = $this->readDocBloc($reflectionProperty->getDocComment());
+                $sqlTypes[$reflectionProperty->getName()] = Regex::readFromDocBloc('SQL', $reflectionProperty->getDocComment());
             }
         }
 
         return $sqlTypes;
     }
 
-    public function makeSqlCreateTableQuery()
+    public static function sqlCreateTableQuery()
     {
-        $table = (new \ReflectionClass($this))->getShortName();
+        $table = (new \ReflectionClass(static::class))->getShortName();
         $query = "CREATE TABLE IF NOT EXISTS `$table` (";
-        foreach ($this->getSqlTypesFromDocBloc() as $name => $property) {
-            if ($name !== array_key_last($this->getSqlTypesFromDocBloc())) {
+        foreach (self::getSqlTypesFromDocBloc() as $name => $property) {
+            if ($name !== array_key_last(self::getSqlTypesFromDocBloc())) {
                 $query .= "`$name` $property, ";
             } else {
                 $query .= "`$name` $property ";

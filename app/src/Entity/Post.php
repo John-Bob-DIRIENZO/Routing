@@ -83,10 +83,11 @@ class Post extends BaseEntity
     }
 
     /**
-     * @param \DateTime $createdAt
+     * @param string $createdAt
+     * @throws \Exception
      */
-    public function setCreatedAt(\DateTime $createdAt): void
+    public function setCreatedAt(string $createdAt): void
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTime($createdAt);
     }
 }
