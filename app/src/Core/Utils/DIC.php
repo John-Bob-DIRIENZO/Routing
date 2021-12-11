@@ -38,7 +38,7 @@ class DIC implements ContainerInterface
     }
 
     /**
-     * @param string $instance
+     * @param string $id
      * @return object
      */
     public static function autowire(string $id): object
@@ -66,7 +66,7 @@ class DIC implements ContainerInterface
      * @return false|object
      * @throws \ReflectionException
      */
-    public function getWithInterface(string $interfaceName)
+    public function getWithInterface(string $interfaceName): object|bool
     {
         foreach (self::$instances as $instance) {
             $reflexion = new \ReflectionClass($instance);
@@ -125,7 +125,7 @@ class DIC implements ContainerInterface
      * @param array $results
      * @return array
      */
-    public function getClasses($dir, &$results = []): array
+    public function getClasses($dir, array &$results = []): array
     {
         $files = scandir($dir);
 

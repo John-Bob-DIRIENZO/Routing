@@ -9,12 +9,12 @@ class PDOFactory implements ConnectionInterface
     private static string $dsn = 'mysql:host=db';
     private static string $username = 'root';
     private static string $password = 'password';
-    const DATABASE = 'demo';
+    const DATABASE = 'data';
 
     private static function getMysqlConnection(): \PDO
     {
         try {
-            $db = new \PDO(self::$dsn, self::$username, self::$password);
+            $db = new \PDO(self::$dsn . ';dbname=' . self::DATABASE, self::$username, self::$password);
             $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         } catch (\PDOException $e) {
             ob_start();
@@ -27,6 +27,7 @@ class PDOFactory implements ConnectionInterface
 
         return $db;
     }
+
     public function getConnection(): \PDO
     {
         return self::getMysqlConnection();

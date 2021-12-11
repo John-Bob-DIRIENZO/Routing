@@ -5,7 +5,7 @@ namespace App\Core\BaseClasses;
 use App\Core\Interfaces\ConnectionInterface;
 use Psr\Container\ContainerInterface;
 
-class BaseManager
+abstract class BaseManager
 {
     protected \PDO $pdo;
 
@@ -15,5 +15,13 @@ class BaseManager
     public function __construct(ConnectionInterface $pdo)
     {
         $this->pdo = $pdo->getConnection();
+        $this->createTableIfNotExists();
+    }
+
+    private function createTableIfNotExists()
+    {
+        $shortName = (new \ReflectionClass($this))->getShortName();
+        $entityName = 'App\\Entity\\' . str_replace('Manager', '', $shortName);
+        $this->pdo->exec((new $entityName)->makeSqlCreateTableQuery());
     }
 }

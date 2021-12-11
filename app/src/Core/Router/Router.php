@@ -2,18 +2,17 @@
 
 namespace App\Core\Router;
 
+
 class Router
 {
     private string $routesFilePath;
 
     public function __construct(string $routesFilePath)
     {
+        if (!file_exists($routesFilePath)) {
+            throw new \InvalidArgumentException(sprintf('Le fichier <strong>%s</strong> n\'a pas été trouvé', $routesFilePath));
+        }
         $this->routesFilePath = $routesFilePath;
-    }
-
-    public function isPathGood()
-    {
-        return (new \DOMDocument())->load($this->routesFilePath) || yaml_parse_file($this->routesFilePath);
     }
 
     public function runXML()

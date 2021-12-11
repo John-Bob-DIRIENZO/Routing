@@ -7,5 +7,10 @@ require './../vendor/autoload.php';
 
 (new DIC('./../src/'))->run();
 
-$router = new Router('./../config/routes.yaml');
-$router->runYAML();
+
+try {
+    $router = new Router('./../config/routes.yaml');
+    $router->runYAML();
+} catch (InvalidArgumentException $e) {
+    echo $e->getMessage();
+}

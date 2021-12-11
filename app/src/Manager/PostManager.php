@@ -8,6 +8,10 @@ class PostManager extends BaseManager
 {
     public function getAllPosts()
     {
-        return 'Je vais récupérer des posts';
+        return $this->pdo
+            ->query('SELECT * FROM test')
+            ->fetchAll(\PDO::FETCH_FUNC, function () {
+                var_dump(func_get_args());
+            });
     }
 }
