@@ -26,9 +26,7 @@ abstract class BaseManager
 
     private function createTableIfNotExists()
     {
-        $shortName = (new \ReflectionClass($this))->getShortName();
-        $entityName = 'App\\Entity\\' . str_replace('Manager', '', $shortName);
-        $this->pdo->exec($entityName::SqlCreateTableQuery());
+        $this->pdo->exec($this->entityName::SqlCreateTableQuery());
     }
 
     public function findAll()
