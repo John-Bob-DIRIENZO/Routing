@@ -24,12 +24,18 @@ abstract class BaseManager
         $this->createTableIfNotExists();
     }
 
-    private function createTableIfNotExists()
+    /**
+     * @return void
+     */
+    private function createTableIfNotExists(): void
     {
         $this->pdo->exec($this->entityName::SqlCreateTableQuery());
     }
 
-    public function findAll()
+    /**
+     * @return BaseEntity[]
+     */
+    public function findAll(): array
     {
         $results = $this->pdo
             ->query("SELECT * FROM `$this->shortEntityName`")
@@ -37,6 +43,7 @@ abstract class BaseManager
         foreach ($results as $result) {
             $classes[] = new $this->entityName($result);
         }
-        return $classes;
+
+        return $classes ?? [];
     }
 }
